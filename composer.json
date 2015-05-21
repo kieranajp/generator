@@ -1,5 +1,5 @@
 {
-    "name": "kieranajp/generator",
+    "name": "kieranajp/password-generator",
     "description": "Generates human-readable, but secure, passwords.",
     "require": {
         "php": ">=5.4.0",
