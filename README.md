@@ -11,7 +11,7 @@
 Requires PHP5.4+ (only tested on 5.6 though)
 
 ```
-composer require Kajp/Generator
+composer require kajp/passwordgenerator
 ```
 
 ## Example usage
