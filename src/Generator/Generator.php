@@ -1,6 +1,6 @@
 <?php
 
-namespace Kieranajp;
+namespace Kieranajp\Generator;
 
 use Faker\Factory as Faker;
 
@@ -16,10 +16,15 @@ class Generator
     /**
      * List of allowed symbols to include in password
      *
-     * @var [type]
+     * @var array
      */
     private $symbols = [ '!', '@', '$', '%', '^', '&', '*', ':', ';', '?', ',', '.' ];
 
+    /**
+     * Constructor
+     *
+     * @return void
+     */
     public function __construct()
     {
         $this->faker = Faker::create();

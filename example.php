@@ -2,6 +2,8 @@
 
 require 'vendor/autoload.php';
 
-$g = new \Kieranajp\Generator();
+use \Kieranajp\Generator\Generator;
+
+$g = new Generator();
 
 echo $g->generate();
