@@ -22,6 +22,15 @@ class GeneratorTest extends PHPUnit_Framework_TestCase
         $this->assertInternalType('string', $this->g->generate());
     }
 
+    public function testGeneratingMultiplePasswords()
+    {
+        $pws = $this->g->generate(2);
+
+        $this->assertEquals(count($pws), 2);
+        $this->assertInternalType('string', $pws[0]);
+        $this->assertNotEquals($pws[0], $pws[1]);
+    }
+
     public function testGeneratingTwoPasswordsAreDifferent()
     {
         $this->assertNotEquals($this->g->generate(), $this->g->generate());
