@@ -2,6 +2,6 @@
 
 require 'vendor/autoload.php';
 
-$g = new \Kajp\Generator();
+$g = new \Kieranajp\Generator();
 
 echo $g->generate();

@@ -1,6 +1,6 @@
 <?php
 
-namespace Kajp;
+namespace Kieranajp;
 
 use Faker\Factory as Faker;
 

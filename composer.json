@@ -1,7 +1,8 @@
 {
-    "name": "kajp/passwordgenerator",
+    "name": "kieranajp/generator",
     "description": "Generates human-readable, but secure, passwords.",
     "require": {
+        "php": ">=5.4.0",
         "fzaninotto/faker": "dev-master"
     },
     "require-dev": {
@@ -9,7 +10,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Kajp\\" : "src/"
+            "Kieranajp\\" : "src/"
         }
     },
     "license": "MIT",
