@@ -35,4 +35,16 @@ class GeneratorTest extends PHPUnit_Framework_TestCase
     {
         $this->assertNotEquals($this->g->generate(), $this->g->generate());
     }
+
+    public function testAddingASymbol()
+    {
+        $thief = function (Generator $g) {
+            return $g->symbols;
+        };
+        $thief = Closure::bind($thief, null, $this->g);
+
+        $this->g->addSymbol('>');
+
+        $this->assertContains('>', $thief($this->g));
+    }
 }
