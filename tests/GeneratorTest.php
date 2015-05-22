@@ -38,13 +38,25 @@ class GeneratorTest extends PHPUnit_Framework_TestCase
 
     public function testAddingASymbol()
     {
-        $thief = function (Generator $g) {
+        $publicify = function (Generator $g) {
             return $g->symbols;
         };
-        $thief = Closure::bind($thief, null, $this->g);
+        $publicify = Closure::bind($publicify, null, $this->g);
 
         $this->g->addSymbol('>');
 
-        $this->assertContains('>', $thief($this->g));
+        $this->assertContains('>', $publicify($this->g));
+    }
+
+    public function testRemovingASymbol()
+    {
+        $publicify = function (Generator $g) {
+            return $g->symbols;
+        };
+        $publicify = Closure::bind($publicify, null, $this->g);
+
+        $this->g->removeSymbol('&');
+
+        $this->assertFalse(in_array('&', $publicify($this->g)));
     }
 }
