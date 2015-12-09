@@ -22,7 +22,7 @@ See example.php
 
 - [ ] Documentation that doesn't suck
 - [x] PSR-2 compliance
-- [ ] Test coverage
+- [x] Test coverage
 - [ ] Test on different PHP versions
 - [ ] Ability to change the password format
 - [ ] Ability to swap out word lists
