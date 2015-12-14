@@ -25,9 +25,9 @@ class Generator
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($locale = "en_US")
     {
-        $this->faker = Faker::create();
+        $this->faker = Faker::create($locale);
     }
 
     /**
