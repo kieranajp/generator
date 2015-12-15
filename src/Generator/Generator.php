@@ -25,9 +25,9 @@ class Generator
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($locale = "en_US")
     {
-        $this->faker = Faker::create();
+        $this->faker = Faker::create($locale);
     }
 
     /**
@@ -49,7 +49,7 @@ class Generator
         $passwords = [];
         while (count($passwords) < $num) {
             $password    = $this->faker->streetName;
-            $password    = str_replace(' ', $this->getSymbol(), $password);
+            $password    = preg_replace('/\W/', $this->getSymbol(), $password);
             $password   .= $this->faker->randomNumber(3) . $this->getSymbol();
             $passwords[] = $password;
         }
