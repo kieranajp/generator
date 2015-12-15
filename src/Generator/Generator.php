@@ -18,7 +18,7 @@ class Generator
      *
      * @var array
      */
-    private $symbols = [ '!', '@', '$', '%', '^', '&', '*', ':', ';', '?', ',', '.' ];
+    private $symbols = array( '!', '@', '$', '%', '^', '&', '*', ':', ';', '?', ',', '.' );
 
     /**
      * Constructor
@@ -46,7 +46,7 @@ class Generator
             );
         }
 
-        $passwords = [];
+        $passwords = array();
         while (count($passwords) < $num) {
             $password    = $this->faker->streetName;
             $password    = preg_replace('/\W/', $this->getSymbol(), $password);
