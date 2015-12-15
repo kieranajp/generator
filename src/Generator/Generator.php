@@ -49,7 +49,7 @@ class Generator
         $passwords = [];
         while (count($passwords) < $num) {
             $password    = $this->faker->streetName;
-            $password    = preg_replace('/([^a-zA-Z0-9 ]+)|( )/', $this->getSymbol(), $password);
+            $password    = preg_replace('/\W/', $this->getSymbol(), $password);
             $password   .= $this->faker->randomNumber(3) . $this->getSymbol();
             $passwords[] = $password;
         }
