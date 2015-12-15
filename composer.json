@@ -2,7 +2,7 @@
     "name": "kieranajp/password-generator",
     "description": "Generates human-readable, but secure, passwords.",
     "require": {
-        "php": ">=5.4.0",
+        "php": ">=5.3.3",
         "fzaninotto/faker": "~1.5"
     },
     "require-dev": {
