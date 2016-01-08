@@ -16,6 +16,17 @@ composer require kieranajp/password-generator
 
 ## Example usage
 
+To set a password format, the can now be easily done using the following keywords:
+- word 
+- num 
+- symbol
+
+Seperated by a ":" delimiter.
+
+```
+$g->setFormat("word:num:symbol")
+```
+
 See example.php
 
 ## Todo
@@ -24,5 +35,5 @@ See example.php
 - [x] PSR-2 compliance
 - [x] Test coverage
 - [x] Test on different PHP versions
-- [ ] Ability to change the password format
+- [x] Ability to change the password format
 - [ ] Ability to swap out word lists
