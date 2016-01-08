@@ -21,8 +21,16 @@ class Generator
     private $symbols = array( '!', '@', '$', '%', '^', '&', '*', ':', ';', '?', ',', '.' );
 
     /**
+     * Serial format of the generated password
+     * 
+     * @var string
+     */   
+    private $format = 'word:num:symbol:word:symbol';
+
+    /**
      * Constructor
      *
+     * @param string $locale The locale to be used by faker
      * @return void
      */
     public function __construct($locale = "en_US")
@@ -47,10 +55,25 @@ class Generator
         }
 
         $passwords = array();
+        $order = explode(":", $this->format);
+
         while (count($passwords) < $num) {
-            $password    = $this->faker->streetName;
-            $password    = preg_replace('/\W/', $this->getSymbol(), $password);
-            $password   .= $this->faker->randomNumber(3) . $this->getSymbol();
+            $password = "";
+            foreach($order as $element) {
+                switch ($element) {
+                    case "word":
+                        $password .= preg_replace('/(?<=\w) .*/', "", $this->faker->streetName);
+                        break;
+                    case "num":
+                        $password .= $this->faker->randomNumber(3);
+                        break;
+                    case "symbol":
+                        $password .= $this->getSymbol();
+                        break;
+                    default: 
+                        $password = $password;
+                }
+            }
             $passwords[] = $password;
         }
 
@@ -114,6 +137,36 @@ class Generator
             return (is_string($char) && strlen($char) === 1);
         });
     }
+
+    /**
+     * Public facing method to set the order in which password elements are generated.
+     *
+     * @param string $seed The order you wish the password elements to display
+     * @return void
+     */
+    public function setFormat($seed)
+    {
+        if (!is_string($seed)) {
+            throw new InvalidArgumentException(
+                sprintf(
+                    `setFormat expects parameter 1 of type string. "%s" (%s) given.`,
+                    $seed,
+                    gettype($seed)
+                )
+            );
+        }
+
+        if (strstr(":",$seed) < 1) {
+            throw new InvalidArgumentException(
+                sprintf(
+                    `setFormt expects parameter 1 of at least two elements seperated by ":"`
+                )
+            );
+        }
+
+        $this->format = $seed;
+    }
+    
 
     /**
      * Get a random symbol from the list of allowed symbols
