@@ -20,7 +20,8 @@ To set a password format, the can now be easily done using the following keyword
 - word 
 - num 
 - symbol
-seperated by a ":" delimiter.
+
+Seperated by a ":" delimiter.
 
 ```
 $g->setFormat("word:num:symbol")
