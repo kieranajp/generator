@@ -8,7 +8,7 @@
 
 ## Installation
 
-Requires PHP5.4+ (only tested on 5.6 though)
+Requires PHP5.3.3+ (though the unit tests only run on 5.4+ so that's highly recommended)
 
 ```
 composer require kieranajp/password-generator
@@ -23,6 +23,6 @@ See example.php
 - [ ] Documentation that doesn't suck
 - [x] PSR-2 compliance
 - [x] Test coverage
-- [ ] Test on different PHP versions
+- [x] Test on different PHP versions
 - [ ] Ability to change the password format
 - [ ] Ability to swap out word lists
