@@ -147,7 +147,7 @@ class Generator
     public function setFormat($seed)
     {
         if (!is_string($seed)) {
-            throw new InvalidArgumentException(
+            throw new \InvalidArgumentException(
                 sprintf(
                     `setFormat expects parameter 1 of type string. "%s" (%s) given.`,
                     $seed,
@@ -156,10 +156,11 @@ class Generator
             );
         }
 
-        if (strstr(":",$seed) < 1) {
-            throw new InvalidArgumentException(
+        if (strstr($seed, ":") == false) {
+            throw new \InvalidArgumentException(
                 sprintf(
-                    `setFormt expects parameter 1 of at least two elements seperated by ":"`
+                    `setFormat expects parameter 1 to be of at least two elements seperated by ":", "%s"`,
+                    $seed
                 )
             );
         }
