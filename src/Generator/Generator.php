@@ -22,9 +22,9 @@ class Generator
 
     /**
      * Serial format of the generated password
-     * 
+     *
      * @var string
-     */   
+     */
     private $format = array('word', 'num', 'symbol', 'word', 'symbol');
 
     /**
@@ -72,8 +72,6 @@ class Generator
                     case "symbol":
                         $password .= $this->getSymbol();
                         break;
-                    default: 
-                        $password = $password;
                 }
             }
             $passwords[] = $password;
@@ -91,7 +89,7 @@ class Generator
     public function addSymbol($char)
     {
         if (!is_string($char) || strlen($char) > 1) {
-            throw new InvalidArgumentException(
+            throw new \InvalidArgumentException(
                 sprintf(
                     'addSymbol expects parameter 1 of type string, length 1. "%s" (%s) given.',
                     $char,
@@ -107,20 +105,14 @@ class Generator
      * Public facing method to remove a char from the list of allowed symbols
      *
      * @param string $char The symbol to remove
+     *
+     * @throws InvalidArgumentException if the provided argument is not of type
+     *     'string'.
+     *
      * @return void
      */
     public function removeSymbol($char)
     {
-        if (!is_string($char) || strlen($char) > 1) {
-            throw new InvalidArgumentException(
-                sprintf(
-                    'removeSymbol expects parameter 1 of type string, length 1. "%s" (%s) given.',
-                    $char,
-                    gettype($char)
-                )
-            );
-        }
-
         if (($key = array_search($char, $this->symbols)) !== false) {
             unset($this->symbols[$key]);
         }
@@ -131,26 +123,37 @@ class Generator
      * Only adds strings of length 1, discards anything else passed to it.
      *
      * @param array $chars The array of characters to set
+     *
+     * @throws InvalidArgumentException if the provided array is empty
+     *
      * @return void
      */
     public function setSymbols(array $chars)
     {
-        $this->symbols = array_filter($chars, function ($char) {
-            return (is_string($char) && strlen($char) === 1);
-        });
+        if (count($chars) === 0) {
+            throw new \InvalidArgumentException(
+                'setSymbols expects a non-empty array!'
+            );
+        }
+
+        $this->symbols = array();
+        foreach ($chars as $char) {
+            $this->addSymbol($char);
+        }
     }
 
     /**
      * Public facing method to set the order in which password elements are generated.
      *
      * @param array $seed The order you wish the password elements to display
+     *
      * @return void
      */
     public function setFormat(array $seed)
     {
         $this->format = $seed;
     }
-    
+
 
     /**
      * Get a random symbol from the list of allowed symbols

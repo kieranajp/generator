@@ -6,6 +6,14 @@ class GeneratorTest extends PHPUnit_Framework_TestCase
 {
     protected $g;
 
+    private function publicify($parameter)
+    {
+        $publicify = function (Generator $g) use ($parameter) {
+            return $g->{$parameter};
+        };
+        return Closure::bind($publicify, null, $this->g);
+    }
+
     public function setUp()
     {
         $this->g = new Generator();
@@ -38,29 +46,56 @@ class GeneratorTest extends PHPUnit_Framework_TestCase
 
     public function testAddingASymbol()
     {
-        $publicify = function (Generator $g) {
-            return $g->symbols;
-        };
-        $publicify = Closure::bind($publicify, null, $this->g);
+        $publicify = $this->publicify('symbols');
 
         $this->g->addSymbol('>');
 
         $this->assertContains('>', $publicify($this->g));
     }
 
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testAddingAnInvalidSymbol()
+    {
+        $this->g->addSymbol(2);
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testAddingATooLongSymbol()
+    {
+        $this->g->addSymbol('herp');
+    }
+
     public function testRemovingASymbol()
     {
-        $publicify = function (Generator $g) {
-            return $g->symbols;
-        };
-        $publicify = Closure::bind($publicify, null, $this->g);
+        $publicify = $this->publicify('symbols');
 
         $this->g->removeSymbol('&');
 
         $this->assertFalse(in_array('&', $publicify($this->g)));
     }
 
-    public function testSettingFormat() 
+    public function testSettingAllSymbols()
+    {
+        $publicify = $this->publicify('symbols');
+
+        $this->g->setSymbols(['&']);
+
+        $this->assertEquals(['&'], $publicify($this->g));
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testSettingAllSymbolsWithEmptyArray()
+    {
+        $this->g->setSymbols([]);
+    }
+
+    public function testSettingFormat()
     {
         $publicify = function (Generator $g) {
             return $g->format;
