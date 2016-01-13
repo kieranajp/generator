@@ -67,8 +67,8 @@ class GeneratorTest extends PHPUnit_Framework_TestCase
         };
         $publicify = Closure::bind($publicify, null, $this->g);
 
-        $this->g->setFormat("word:symbol:number:word:symbol:meh");
+        $this->g->setFormat(['word', 'symbol', 'word']);
 
-        $this->assertContains("word:symbol:number:word:symbol", $publicify($this->g));
+        $this->assertEquals(['word', 'symbol', 'word'], $publicify($this->g));
     }
 }

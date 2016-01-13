@@ -18,19 +18,20 @@ class Generator
      *
      * @var array
      */
-    private $symbols = array( '!', '@', '$', '%', '^', '&', '*', ':', ';', '?', ',', '.' );
+    private $symbols = array('!', '@', '$', '%', '^', '&', '*', ':', ';', '?', ',', '.');
 
     /**
      * Serial format of the generated password
      * 
      * @var string
      */   
-    private $format = 'word:num:symbol:word:symbol';
+    private $format = array('word', 'num', 'symbol', 'word', 'symbol');
 
     /**
      * Constructor
      *
      * @param string $locale The locale to be used by faker
+     *
      * @return void
      */
     public function __construct($locale = "en_US")
@@ -41,7 +42,9 @@ class Generator
     /**
      * Public facing method to generate password(s)
      *
-     * @return string password
+     * @param int $num The number of passwords to generate
+     *
+     * @return string
      */
     public function generate($num = 1)
     {
@@ -55,11 +58,10 @@ class Generator
         }
 
         $passwords = array();
-        $order = explode(":", $this->format);
 
         while (count($passwords) < $num) {
             $password = "";
-            foreach($order as $element) {
+            foreach ($this->format as $element) {
                 switch ($element) {
                     case "word":
                         $password .= preg_replace('/(?<=\w) .*/', "", $this->faker->streetName);
@@ -141,30 +143,11 @@ class Generator
     /**
      * Public facing method to set the order in which password elements are generated.
      *
-     * @param string $seed The order you wish the password elements to display
+     * @param array $seed The order you wish the password elements to display
      * @return void
      */
-    public function setFormat($seed)
+    public function setFormat(array $seed)
     {
-        if (!is_string($seed)) {
-            throw new \InvalidArgumentException(
-                sprintf(
-                    `setFormat expects parameter 1 of type string. "%s" (%s) given.`,
-                    $seed,
-                    gettype($seed)
-                )
-            );
-        }
-
-        if (strstr($seed, ":") == false) {
-            throw new \InvalidArgumentException(
-                sprintf(
-                    `setFormat expects parameter 1 to be of at least two elements seperated by ":", "%s"`,
-                    $seed
-                )
-            );
-        }
-
         $this->format = $seed;
     }
     
