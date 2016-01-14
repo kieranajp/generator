@@ -23,7 +23,7 @@ class Generator
     /**
      * Serial format of the generated password
      *
-     * @var string
+     * @var array
      */
     private $format = array('word', 'num', 'symbol', 'word', 'symbol');
 
@@ -143,25 +143,39 @@ class Generator
     }
 
     /**
-     * Public facing method to set the order in which password elements are generated.
+     * Get a random symbol from the list of allowed symbols
+     *
+     * @return string
+     */
+    private function getSymbol()
+    {
+        return $this->faker->randomElement($this->symbols);
+    }
+
+    /**
+     * Public facing method to set the order in which password elements are
+     * generated. Ignores non-valid format values.
      *
      * @param array $seed The order you wish the password elements to display
      *
      * @return void
      */
-    public function setFormat(array $seed)
+    public function setFormat(array $format)
     {
-        $this->format = $seed;
-    }
+        if (count($format) === 0) {
+            throw new \InvalidArgumentException(
+                'setFormat expects a non-empty array!'
+            );
+        }
 
+        $allowed = array('word', 'num', 'symbol');
 
-    /**
-     * Get a random symbol from the list of allowed symbols
-     *
-     * @return string symbol
-     */
-    private function getSymbol()
-    {
-        return $this->faker->randomElement($this->symbols);
+        $this->format = array();
+
+        foreach ($format as $item) {
+            if (in_array($item, $allowed)) {
+                $this->format[] = $item;
+            }
+        }
     }
 }

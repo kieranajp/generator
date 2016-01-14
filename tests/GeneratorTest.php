@@ -97,13 +97,27 @@ class GeneratorTest extends PHPUnit_Framework_TestCase
 
     public function testSettingFormat()
     {
-        $publicify = function (Generator $g) {
-            return $g->format;
-        };
-        $publicify = Closure::bind($publicify, null, $this->g);
+        $publicify = $this->publicify('format');
 
         $this->g->setFormat(['word', 'symbol', 'word']);
 
         $this->assertEquals(['word', 'symbol', 'word'], $publicify($this->g));
+    }
+
+    public function testSettingInvalidFormatIsIgnored()
+    {
+        $publicify = $this->publicify('format');
+
+        $this->g->setFormat(['word', 'banana', 'word']);
+
+        $this->assertEquals(['word', 'word'], $publicify($this->g));
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testSettingEmptyFormat()
+    {
+        $this->g->setFormat([]);
     }
 }
