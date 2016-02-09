@@ -62,7 +62,7 @@ class Generator
             foreach($order as $element) {
                 switch ($element) {
                     case "word":
-                        $password .= preg_replace('/(?<=\w) .*/', "", $this->faker->streetName);
+                        $password .= preg_replace('/(\W)+/', "", $this->faker->streetName);
                         break;
                     case "num":
                         $password .= $this->faker->randomNumber(3);
