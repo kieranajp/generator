@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Kieranajp\Generator;
 
@@ -18,14 +18,14 @@ class Generator
      *
      * @var array
      */
-    private $symbols = array('!', '@', '$', '%', '^', '&', '*', ':', ';', '?', ',', '.');
+    private $symbols = ['!', '@', '$', '%', '^', '&', '*', ':', ';', '?', ',', '.'];
 
     /**
      * Serial format of the generated password
      *
      * @var array
      */
-    private $format = array('word', 'num', 'symbol', 'word', 'symbol');
+    private $format = ['word', 'num', 'symbol', 'word', 'symbol'];
 
     /**
      * Constructor
@@ -34,7 +34,7 @@ class Generator
      *
      * @return void
      */
-    public function __construct($locale = "en_US")
+    public function __construct(string $locale = "en_US")
     {
         $this->faker = Faker::create($locale);
     }
@@ -46,7 +46,7 @@ class Generator
      *
      * @return string
      */
-    public function generate($num = 1)
+    public function generate(int $num = 1): array
     {
         if (!is_int($num)) {
             throw new InvalidArgumentException(
@@ -57,7 +57,7 @@ class Generator
             );
         }
 
-        $passwords = array();
+        $passwords = [];
 
         while (count($passwords) < $num) {
             $password = "";
@@ -77,7 +77,7 @@ class Generator
             $passwords[] = $password;
         }
 
-        return count($passwords) > 1 ? $passwords : $passwords[0];
+        return $passwords;
     }
 
     /**
@@ -86,14 +86,13 @@ class Generator
      * @param string $char The symbol to add
      * @return void
      */
-    public function addSymbol($char)
+    public function addSymbol(string $char)
     {
-        if (!is_string($char) || strlen($char) > 1) {
+        if (strlen($char) > 1) {
             throw new \InvalidArgumentException(
                 sprintf(
-                    'addSymbol expects parameter 1 of type string, length 1. "%s" (%s) given.',
-                    $char,
-                    gettype($char)
+                    'addSymbol expects parameter 1 to have a length of 1. "%s" given.',
+                    $char
                 )
             );
         }
@@ -111,7 +110,7 @@ class Generator
      *
      * @return void
      */
-    public function removeSymbol($char)
+    public function removeSymbol(string $char)
     {
         if (($key = array_search($char, $this->symbols)) !== false) {
             unset($this->symbols[$key]);
@@ -136,7 +135,7 @@ class Generator
             );
         }
 
-        $this->symbols = array();
+        $this->symbols = [];
         foreach ($chars as $char) {
             $this->addSymbol($char);
         }
@@ -147,7 +146,7 @@ class Generator
      *
      * @return string
      */
-    private function getSymbol()
+    private function getSymbol(): string
     {
         return $this->faker->randomElement($this->symbols);
     }
@@ -168,9 +167,9 @@ class Generator
             );
         }
 
-        $allowed = array('word', 'num', 'symbol');
+        $allowed = ['word', 'num', 'symbol'];
 
-        $this->format = array();
+        $this->format = [];
 
         foreach ($format as $item) {
             if (in_array($item, $allowed)) {
