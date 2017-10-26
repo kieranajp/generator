@@ -27,7 +27,7 @@ class GeneratorTest extends PHPUnit_Framework_TestCase
 
     public function testGeneratingAPassword()
     {
-        $this->assertInternalType('string', $this->g->generate());
+        $this->assertInternalType('string', $this->g->generate()[0]);
     }
 
     public function testGeneratingMultiplePasswords()
@@ -51,14 +51,6 @@ class GeneratorTest extends PHPUnit_Framework_TestCase
         $this->g->addSymbol('>');
 
         $this->assertContains('>', $publicify($this->g));
-    }
-
-    /**
-     * @expectedException \InvalidArgumentException
-     */
-    public function testAddingAnInvalidSymbol()
-    {
-        $this->g->addSymbol(2);
     }
 
     /**
