@@ -10,7 +10,6 @@ env:
 
 script:
   - composer update $COMPOSER_UPDATE -n
-  - vendor/bin/php-cs-fixer fix --dry-run -v
   - vendor/bin/phpunit --coverage-clover=coverage.xml
 
 after_success:
