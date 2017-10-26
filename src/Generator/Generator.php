@@ -18,14 +18,14 @@ class Generator
      *
      * @var array
      */
-    private $symbols = array('!', '@', '$', '%', '^', '&', '*', ':', ';', '?', ',', '.');
+    private $symbols = ['!', '@', '$', '%', '^', '&', '*', ':', ';', '?', ',', '.'];
 
     /**
      * Serial format of the generated password
      *
      * @var array
      */
-    private $format = array('word', 'num', 'symbol', 'word', 'symbol');
+    private $format = ['word', 'num', 'symbol', 'word', 'symbol'];
 
     /**
      * Constructor
@@ -57,7 +57,7 @@ class Generator
             );
         }
 
-        $passwords = array();
+        $passwords = [];
 
         while (count($passwords) < $num) {
             $password = "";
@@ -136,7 +136,7 @@ class Generator
             );
         }
 
-        $this->symbols = array();
+        $this->symbols = [];
         foreach ($chars as $char) {
             $this->addSymbol($char);
         }
@@ -168,9 +168,9 @@ class Generator
             );
         }
 
-        $allowed = array('word', 'num', 'symbol');
+        $allowed = ['word', 'num', 'symbol'];
 
-        $this->format = array();
+        $this->format = [];
 
         foreach ($format as $item) {
             if (in_array($item, $allowed)) {
