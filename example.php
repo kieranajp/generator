@@ -6,6 +6,6 @@ use \Kieranajp\Generator\Generator;
 
 $g = new Generator();
 
-echo $g->generate();
+var_dump($g->generate());
 
 echo "\n";

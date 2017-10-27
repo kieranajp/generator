@@ -48,15 +48,6 @@ class Generator
      */
     public function generate(int $num = 1): array
     {
-        if (!is_int($num)) {
-            throw new InvalidArgumentException(
-                sprintf(
-                    'generate expects parameter 1 of type int. %s given.',
-                    gettype($num)
-                )
-            );
-        }
-
         $passwords = [];
 
         while (count($passwords) < $num) {
