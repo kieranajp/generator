@@ -3,7 +3,7 @@
     "description": "Generates human-readable, but secure, passwords.",
     "require": {
         "php": ">=7.0",
-        "fzaninotto/faker": "~1.5"
+        "fakerphp/faker": "*"
     },
     "require-dev": {
         "phpunit/phpunit": "9.*"
@@ -18,6 +18,10 @@
         {
             "name": "Kieran Patel",
             "email": "me@kieranajp.co.uk"
+        },
+        {
+            "name": "Stephen Holt",
+            "email": "spholt@hotmail.co.uk"
         }
     ],
     "minimum-stability": "stable",
