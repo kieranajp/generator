@@ -6,6 +6,14 @@ class GeneratorTest extends PHPUnit_Framework_TestCase
 {
     protected $g;
 
+    private function publicify($parameter)
+    {
+        $publicify = function (Generator $g) use ($parameter) {
+            return $g->{$parameter};
+        };
+        return Closure::bind($publicify, null, $this->g);
+    }
+
     public function setUp()
     {
         $this->g = new Generator();
@@ -19,7 +27,7 @@ class GeneratorTest extends PHPUnit_Framework_TestCase
 
     public function testGeneratingAPassword()
     {
-        $this->assertInternalType('string', $this->g->generate());
+        $this->assertInternalType('string', $this->g->generate()[0]);
     }
 
     public function testGeneratingMultiplePasswords()
@@ -38,37 +46,70 @@ class GeneratorTest extends PHPUnit_Framework_TestCase
 
     public function testAddingASymbol()
     {
-        $publicify = function (Generator $g) {
-            return $g->symbols;
-        };
-        $publicify = Closure::bind($publicify, null, $this->g);
+        $publicify = $this->publicify('symbols');
 
         $this->g->addSymbol('>');
 
         $this->assertContains('>', $publicify($this->g));
     }
 
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testAddingATooLongSymbol()
+    {
+        $this->g->addSymbol('herp');
+    }
+
     public function testRemovingASymbol()
     {
-        $publicify = function (Generator $g) {
-            return $g->symbols;
-        };
-        $publicify = Closure::bind($publicify, null, $this->g);
+        $publicify = $this->publicify('symbols');
 
         $this->g->removeSymbol('&');
 
         $this->assertFalse(in_array('&', $publicify($this->g)));
     }
 
-    public function testSettingFormat() 
+    public function testSettingAllSymbols()
     {
-        $publicify = function (Generator $g) {
-            return $g->format;
-        };
-        $publicify = Closure::bind($publicify, null, $this->g);
+        $publicify = $this->publicify('symbols');
 
-        $this->g->setFormat("word:symbol:number:word:symbol:meh");
+        $this->g->setSymbols(['&']);
 
-        $this->assertContains("word:symbol:number:word:symbol", $publicify($this->g));
+        $this->assertEquals(['&'], $publicify($this->g));
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testSettingAllSymbolsWithEmptyArray()
+    {
+        $this->g->setSymbols([]);
+    }
+
+    public function testSettingFormat()
+    {
+        $publicify = $this->publicify('format');
+
+        $this->g->setFormat(['word', 'symbol', 'word']);
+
+        $this->assertEquals(['word', 'symbol', 'word'], $publicify($this->g));
+    }
+
+    public function testSettingInvalidFormatIsIgnored()
+    {
+        $publicify = $this->publicify('format');
+
+        $this->g->setFormat(['word', 'banana', 'word']);
+
+        $this->assertEquals(['word', 'word'], $publicify($this->g));
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testSettingEmptyFormat()
+    {
+        $this->g->setFormat([]);
     }
 }
