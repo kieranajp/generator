@@ -2,19 +2,11 @@
 
 use Kieranajp\Generator\Generator;
 
-class GeneratorTest extends PHPUnit_Framework_TestCase
+class GeneratorTest extends PHPUnit\Framework\TestCase
 {
     protected $g;
 
-    private function publicify($parameter)
-    {
-        $publicify = function (Generator $g) use ($parameter) {
-            return $g->{$parameter};
-        };
-        return Closure::bind($publicify, null, $this->g);
-    }
-
-    public function setUp()
+    public function setUp(): void
     {
         $this->g = new Generator();
     }
@@ -27,7 +19,7 @@ class GeneratorTest extends PHPUnit_Framework_TestCase
 
     public function testGeneratingAPassword()
     {
-        $this->assertInternalType('string', $this->g->generate()[0]);
+        $this->assertIsString($this->g->generate()[0]);
     }
 
     public function testGeneratingMultiplePasswords()
@@ -35,7 +27,7 @@ class GeneratorTest extends PHPUnit_Framework_TestCase
         $pws = $this->g->generate(2);
 
         $this->assertEquals(count($pws), 2);
-        $this->assertInternalType('string', $pws[0]);
+        $this->assertIsString($pws[0]);
         $this->assertNotEquals($pws[0], $pws[1]);
     }
 
@@ -58,6 +50,8 @@ class GeneratorTest extends PHPUnit_Framework_TestCase
      */
     public function testAddingATooLongSymbol()
     {
+        $this->expectException(\InvalidArgumentException::class);
+
         $this->g->addSymbol('herp');
     }
 
@@ -84,6 +78,8 @@ class GeneratorTest extends PHPUnit_Framework_TestCase
      */
     public function testSettingAllSymbolsWithEmptyArray()
     {
+        $this->expectException(\InvalidArgumentException::class);
+
         $this->g->setSymbols([]);
     }
 
@@ -110,6 +106,17 @@ class GeneratorTest extends PHPUnit_Framework_TestCase
      */
     public function testSettingEmptyFormat()
     {
+        $this->expectException(\InvalidArgumentException::class);
+
         $this->g->setFormat([]);
+    }
+
+    private function publicify($parameter)
+    {
+        $publicify = function (Generator $g) use ($parameter) {
+            return $g->{$parameter};
+        };
+
+        return Closure::bind($publicify, null, $this->g);
     }
 }
